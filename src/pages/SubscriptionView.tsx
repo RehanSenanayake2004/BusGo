@@ -49,7 +49,7 @@ export default function SubscriptionView() {
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const price = plan === 'monthly' ? 'LKR 499' : 'LKR 4,799';
+  const price = plan === 'monthly' ? 'LKR 300' : 'LKR 2,880';
   const savingsBadge = plan === 'yearly' ? '20% OFF' : null;
 
   const handleSubscribe = () => {
@@ -139,7 +139,7 @@ export default function SubscriptionView() {
             }`}
           >
             <p className="text-xs text-gray-500 font-bold uppercase mb-1">Monthly</p>
-            <p className="text-xl font-black dark:text-white">LKR 499</p>
+            <p className="text-xl font-black dark:text-white">LKR 300</p>
             <p className="text-xs text-gray-500">per month</p>
             {plan === 'monthly' && (
               <div className="mt-2 flex items-center gap-1 text-blue-600">
