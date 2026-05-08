@@ -163,7 +163,7 @@ export default function SubscriptionView() {
               </span>
             )}
             <p className="text-xs text-gray-500 font-bold uppercase mb-1">Yearly</p>
-            <p className="text-xl font-black dark:text-white">LKR 4,799</p>
+            <p className="text-xl font-black dark:text-white">LKR 2,880</p>
             <p className="text-xs text-gray-500">per year</p>
             {plan === 'yearly' && (
               <div className="mt-2 flex items-center gap-1 text-purple-600">
