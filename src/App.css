@@ -1,0 +1,57 @@
+/* Safe area for mobile */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 8px);
+}
+
+/* Mobile-specific styles */
+@media (max-width: 1023px) {
+  .leaflet-container {
+    border-radius: 12px;
+  }
+}
+
+/* Prevent text selection on buttons */
+button {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Mobile tap highlight removal */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Map container responsive */
+.map-wrapper {
+  position: relative;
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* Table horizontal scroll shadow */
+.overflow-x-auto {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Card hover lift effect */
+.hover\:shadow-md:hover {
+  transform: translateY(-1px);
+}
+
+/* Loading screen ensures no scroll */
+.loading-screen {
+  overflow: hidden;
+  position: fixed;
+}
+
+/* Dark mode transitions */
+.dark * {
+  transition-property: background-color, border-color, color;
+  transition-duration: 150ms;
+}
