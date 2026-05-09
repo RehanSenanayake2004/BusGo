@@ -16,12 +16,13 @@ import { useAuth } from './hooks/useAuth';
 import LoadingScreen from './pages/LoadingScreen';
 import LoginScreen from './pages/LoginScreen';
 import PassengerView from './pages/PassengerView';
+import BusesView from './pages/BusesView';
 import DriverView from './pages/DriverView';
 import AdminView from './pages/AdminView';
 import SubscriptionView from './pages/SubscriptionView';
 import './App.css';
 
-type ActiveTab = 'dashboard' | 'subscription';
+type ActiveTab = 'dashboard' | 'subscription' | 'buses';
 
 // ============================================================
 // SIDEBAR ITEM COMPONENT
@@ -94,6 +95,7 @@ export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<ActiveTab>('dashboard');
+  const [trackBusNo, setTrackBusNo] = useState<string | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -173,6 +175,14 @@ export default function App() {
         active={activeTab === 'dashboard'}
         onClick={() => { setActiveTab('dashboard'); onItemClick?.(); }}
       />
+      {isPassenger && (
+        <SidebarItem
+          icon={Bus}
+          label="Buses"
+          active={activeTab === 'buses'}
+          onClick={() => { setActiveTab('buses'); onItemClick?.(); }}
+        />
+      )}
       <SidebarItem
         icon={User}
         label="Profile"
@@ -308,7 +318,7 @@ export default function App() {
         {/* Page Title */}
         <div className="mb-6">
           <h1 className="text-2xl lg:text-3xl font-black dark:text-white capitalize">
-            {activeTab === 'subscription' ? 'Subscription' : `${user.role} Dashboard`}
+            {activeTab === 'subscription' ? 'Subscription' : activeTab === 'buses' ? 'Bus Routes' : `${user.role} Dashboard`}
           </h1>
           <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
             Welcome back, {user.email}. System status: Operational.
@@ -318,9 +328,11 @@ export default function App() {
         {/* Role-specific content */}
         {activeTab === 'subscription' && isPassenger ? (
           <SubscriptionView />
+        ) : activeTab === 'buses' && isPassenger ? (
+          <BusesView onTrackLive={(routeNo) => { setTrackBusNo(routeNo); setActiveTab('dashboard'); }} />
         ) : (
           <>
-            {user.role === 'passenger' && <PassengerView />}
+            {user.role === 'passenger' && <PassengerView trackBusNo={trackBusNo} onTrackingStarted={() => setTrackBusNo(null)} />}
             {user.role === 'driver' && <DriverView user={user} />}
             {user.role === 'admin' && <AdminView />}
           </>
@@ -336,12 +348,14 @@ export default function App() {
             active={activeTab === 'dashboard'}
             onClick={() => setActiveTab('dashboard')}
           />
-          <BottomNavItem
-            icon={Bus}
-            label="Buses"
-            active={false}
-            onClick={() => {}}
-          />
+          {isPassenger && (
+            <BottomNavItem
+              icon={Bus}
+              label="Buses"
+              active={activeTab === 'buses'}
+              onClick={() => setActiveTab('buses')}
+            />
+          )}
           {isPassenger && (
             <BottomNavItem
               icon={CreditCard}

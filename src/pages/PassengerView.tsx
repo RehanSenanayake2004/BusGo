@@ -91,13 +91,32 @@ const passengerIcon = new DivIcon({
   iconAnchor: [9, 9],
 });
 
-export default function PassengerView() {
+export default function PassengerView({
+  trackBusNo,
+  onTrackingStarted,
+}: {
+  trackBusNo?: string | null;
+  onTrackingStarted?: () => void;
+}) {
   const buses = useBuses();
   const [popularRoutes, setPopularRoutes] = useState<BusRoute[]>([]);
   const [newlyAddedRoutes, setNewlyAddedRoutes] = useState<BusRoute[]>([]);
   const [routesOpen, setRoutesOpen] = useState(false);
   const [selectedBus, setSelectedBus] = useState<BusType | null>(null);
   const [mapTarget, setMapTarget] = useState<{ lat: number; lng: number } | null>(null);
+
+  // Auto-select & zoom when arriving from Buses tab Track Live
+  useEffect(() => {
+    if (!trackBusNo || buses.length === 0) return;
+    const match = buses.find(
+      (b) => b.busNo === trackBusNo || b.busNo === String(trackBusNo)
+    );
+    if (match) {
+      setSelectedBus(match);
+      setMapTarget({ lat: match.lat, lng: match.lng });
+      onTrackingStarted?.();
+    }
+  }, [trackBusNo, buses]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     setPopularRoutes(BusService.getPopularRoutes());

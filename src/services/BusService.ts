@@ -34,7 +34,7 @@ let allBuses: Bus[] = [
   {
     id: '138-1',
     busNo: '138',
-    route: 'Colombo - Kaduwela',
+    route: 'Kottawa - Pettah',
     lat: 6.9271,
     lng: 79.8612,
     status: 'Active',
@@ -299,9 +299,9 @@ let adminRoutes: BusRoute[] = [
   {
     id: 'route-138',
     routeNo: '138',
-    name: 'Colombo - Kaduwela',
-    origin: 'Colombo',
-    destination: 'Kaduwela',
+    name: 'Kottawa - Pettah',
+    origin: 'Kottawa',
+    destination: 'Pettah',
     stops: 12,
     activeBuses: 2,
     times: ['06:00 AM', '09:00 AM', '12:00 PM', '03:00 PM', '06:00 PM'],
