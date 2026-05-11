@@ -6,14 +6,9 @@ import {
   Shield,
   Zap,
   Navigation,
-  Bell,
-  BarChart3,
-  Users,
   RefreshCw,
   ChevronRight,
   Lock,
-  Fuel,
-  Gauge,
   Crown,
 } from 'lucide-react';
 
