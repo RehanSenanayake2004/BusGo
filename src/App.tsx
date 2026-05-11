@@ -20,6 +20,7 @@ import BusesView from './pages/BusesView';
 import DriverView from './pages/DriverView';
 import AdminView from './pages/AdminView';
 import SubscriptionView from './pages/SubscriptionView';
+import DriverSubscriptionView from './pages/DriverSubscriptionView';
 import './App.css';
 
 type ActiveTab = 'dashboard' | 'subscription' | 'buses';
@@ -165,6 +166,7 @@ export default function App() {
       : MapIcon;
 
   const isPassenger = user.role === 'passenger';
+  const isDriver = user.role === 'driver';
 
   // ── Sidebar nav items for each role ─────────────────────
   const renderSidebarNav = (onItemClick?: () => void) => (
@@ -195,7 +197,7 @@ export default function App() {
         active={false}
         onClick={() => { setIsDarkMode(!isDarkMode); onItemClick?.(); }}
       />
-      {isPassenger && (
+      {(isPassenger || isDriver) && (
         <SidebarItem
           icon={CreditCard}
           label="Subscription"
@@ -318,7 +320,7 @@ export default function App() {
         {/* Page Title */}
         <div className="mb-6">
           <h1 className="text-2xl lg:text-3xl font-black dark:text-white capitalize">
-            {activeTab === 'subscription' ? 'Subscription' : activeTab === 'buses' ? 'Bus Routes' : `${user.role} Dashboard`}
+            {activeTab === 'subscription' ? (isDriver ? 'Driver Pro' : 'Subscription') : activeTab === 'buses' ? 'Bus Routes' : `${user.role} Dashboard`}
           </h1>
           <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
             Welcome back, {user.email}. System status: Operational.
@@ -328,6 +330,8 @@ export default function App() {
         {/* Role-specific content */}
         {activeTab === 'subscription' && isPassenger ? (
           <SubscriptionView />
+        ) : activeTab === 'subscription' && isDriver ? (
+          <DriverSubscriptionView />
         ) : activeTab === 'buses' && isPassenger ? (
           <BusesView onTrackLive={(routeNo) => { setTrackBusNo(routeNo); setActiveTab('dashboard'); }} />
         ) : (
@@ -356,10 +360,10 @@ export default function App() {
               onClick={() => setActiveTab('buses')}
             />
           )}
-          {isPassenger && (
+          {(isPassenger || isDriver) && (
             <BottomNavItem
               icon={CreditCard}
-              label="Premium"
+              label={isDriver ? 'Pro' : 'Premium'}
               active={activeTab === 'subscription'}
               onClick={() => setActiveTab('subscription')}
             />
